@@ -1,28 +1,101 @@
+
+
 CNN: Border Apprehensions Statistics Project
 ========================================================
-author: Alyssa Lai & Alicia Hung
+author: Alyssa Lai & Chen Hong
 date: February 19, 2018
 autosize: true
 
 Data
 ========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+The data comes from CNN coverage of apprehensions at the US-Mexico border.
+Our data consists of:
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+- 2010 Apprehensions By Sector
+- 2017 Apprehensions By Sector
+- Total Apprehensions From 2000-2017
 
-Slide With Code
+Apprehensions from 2000-2017
 ========================================================
 
-```{r}
-summary(cars)
+- Shows total apprehensions at the Mexican Border between the years of 2000 and 2017
+- Steady upwards trend over the years
+
+***
+
+```{r, echo=FALSE}
+MonSum <- read.csv("PB monthly summaries (1).csv", header = TRUE, stringsAsFactors = FALSE)
+VecMonSum <- as.vector(t(MonSum))
+VMSTable <- ts(VecMonSum, start = c(2000,10), frequency=12)
+MonthlySummariesGraph <- ts.plot(
+  VMSTable,
+  gpars=list(
+    xlab="Year",
+    ylab="Apprehensions",
+    lty=c(1:3)),
+    main = "Apprehensions/Month at the Border",
+    col = "blue")
 ```
 
-Slide With Plot
+2010 Apprehensions By Sector
+========================================================
+
+- Shows total number of apprehensions at the Mexican border in 2010, divided by Sector
+
+***
+
+```{r, echo=FALSE}
+A2010 <- read.csv("bp appre 2010.csv", header = TRUE, stringsAsFactors = FALSE)
+DMA2010 <- data.matrix(A2010, rownames.force = NA)
+barplot(rowSums(DMA2010, na.rm=TRUE),
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
+                      "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
+        las=2,
+        main="2010 Border Patrol Total Apprehensions By Sector",
+        border="black",
+        col="blue")
+```
+
+2017 Apprehensions By Sector
+========================================================
+
+- Shows total number of apprehensions at the Mexican border in 2017, divided by Sector
+
+***
+
+```{r, echo=FALSE, }
+A2017 <- read.csv("bp appre 2017.csv", header = TRUE, stringsAsFactors = FALSE)
+DMA2017 <- data.matrix(A2017, rownames.force = NA)
+barplot(rowSums(DMA2017, na.rm=TRUE),
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
+                      "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
+        las=2,
+        main="2017 Border Patrol Total Apprehensions By Sector",
+        border="black",
+        col="blue")
+```
+
+Paired T-Test
 ========================================================
 
 ```{r, echo=FALSE}
-plot(cars)
+A2010 <- read.csv("bp appre 2010.csv", header = TRUE, stringsAsFactors = FALSE)
+DMA2010 <- data.matrix(A2010, rownames.force = NA)
+A2017 <- read.csv("bp appre 2017.csv", header = TRUE, stringsAsFactors = FALSE)
+DMA2017 <- data.matrix(A2017, rownames.force = NA)
+t.test(rowSums(DMA2010, na.rm=T),rowSums(DMA2017, na.rm=T), paired=T)
 ```
+
+Paired T-Test
+========================================================
+
+Is there a significant difference between the number of apprehensions at the border in 2010 than in 2017?
+
+- Paired number of apprehensions based on Sector
+- Null Hypothesis = the difference in the number of apprehensions in 2010 and 2017 is equal to 0
+- Alternate Hypothesis = the difference in the number of apprehensions in 2010 and 2017 is not equal to 0
+- P-Value = 0.4961, meaning that there is no significant difference and that alternate hypothesis will be rejected
+- Thus, <strong>the number of apprehensions in 2010 and 2017 are not significantly different</strong>
+
+

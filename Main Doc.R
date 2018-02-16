@@ -1,3 +1,4 @@
+library("forecast")
 
 A2010 <- read.csv("bp appre 2010.csv", header = TRUE, stringsAsFactors = FALSE)               # Brings the 2010 Apprehensions Data into R
 
@@ -18,21 +19,27 @@ MonthlySummariesGraph <- ts.plot(
     main = "Apprehensions/Month at the Border",
     col = "blue")                                                                              # Makes the TimeSeries of the Monthly Summaries Data
 
-DMA2010 <- data.matrix(A2010, rownames.force = NA)
+DMA2010 <- data.matrix(A2010, rownames.force = NA)                                             # Turns data from "bp appre 2010.csv" into a data matrix with NA for Sector Names
 
 barplot(rowSums(DMA2010, na.rm=TRUE),
-        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo", "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
+                      "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
         las=2,
         main="2010 Border Patrol Total Apprehensions By Sector",
         border="black",
-        col="blue")
+        col="blue")                                                                            # Makes barplot for Total Apprehensions By Sector in 2010
 
-DMA2017 <- data.matrix(A2017, rownames.force = NA)
+DMA2017 <- data.matrix(A2017, rownames.force = NA)                                             # Turns data from "bp appre 2017.csv" into a data matrix with NA for Sector Names
 
-t.test(DFA2010,DFA2017)
+barplot(rowSums(DMA2017, na.rm=TRUE),
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
+                      "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
+        las=2,
+        main="2010 Border Patrol Total Apprehensions By Sector",
+        border="black",
+        col="blue")                                                                            # Makes barplot for Total Apprehensions By Sector in 2017
 
-string <- c(1,2,3,5,7)
-
+t.test(rowSums(DMA2010, na.rm=T),rowSums(DMA2017, na.rm=T), paired=T)                          # Runs paired t-tests, grouping by Sector
 
 
 
