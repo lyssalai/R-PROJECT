@@ -16,12 +16,23 @@ MonthlySummariesGraph <- ts.plot(
     ylab="Apprehensions",
     lty=c(1:3)),
     main = "Apprehensions/Month at the Border",
-    col = "red")                                                                              # Makes the TimeTable of the Monthly Summaries Data
+    col = "blue")                                                                              # Makes the TimeSeries of the Monthly Summaries Data
 
 DMA2010 <- data.matrix(A2010, rownames.force = NA)
+
+barplot(rowSums(DMA2010, na.rm=TRUE),
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo", "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"), 
+        las=2,
+        main="2010 Border Patrol Total Apprehensions By Sector",
+        border="black",
+        col="blue")
+
 DMA2017 <- data.matrix(A2017, rownames.force = NA)
 
 t.test(DFA2010,DFA2017)
+
+string <- c(1,2,3,5,7)
+
 
 
 
