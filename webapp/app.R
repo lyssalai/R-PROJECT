@@ -2,17 +2,21 @@
 
 library(shiny)
 
-A2010 <- read.csv("bp appre 2010 copy.csv", header = TRUE, stringsAsFactors = FALSE)               # Brings the 2010 Apprehensions Data into R
+A2010 <- read.csv("bp appre 2010 copy.csv", header = TRUE, stringsAsFactors = FALSE)           # Brings the 2010 Apprehensions Data into R
 
-A2017 <- read.csv("bp appre 2017 copy.csv", header = TRUE, stringsAsFactors = FALSE)               # Brings the 2017 Apprehensions Data into R
+A2017 <- read.csv("bp appre 2017 copy.csv", header = TRUE, stringsAsFactors = FALSE)           # Brings the 2017 Apprehensions Data into R
+
+DMA2010 <- data.matrix(A2010, rownames.force = NA)                                             # Turns data from "bp appre 2010.csv" into a data matrix with NA for Sector Names
+
+DMA2017 <- data.matrix(A2017, rownames.force = NA)                                             # Turns data from "bp appre 2017.csv" into a data matrix with NA for Sector Names
 
 A <- as.data.frame(matrix(rowSums(DMA2010, na.rm=TRUE), nrow = 1))
 colnames(A) <- c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
-                 "Valley", "San Diego", "Tuscon", "Yuma")                                      # Categorizes total number of apprehensions in 2010 at each Sector with respective names
+                 "Rio Grande Valley", "San Diego", "Tuscon", "Yuma")                                      # Categorizes total number of apprehensions in 2010 at each Sector with respective names
 
 B <- as.data.frame(matrix(rowSums(DMA2017, na.rm=TRUE), nrow = 1))
 colnames(B) <- c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
-                 "Valley", "San Diego", "Tuscon", "Yuma")                                      # Categorizes total number of apprehensions in 2017 at each Sector with respective names
+                 "Rio Grande Valley", "San Diego", "Tuscon", "Yuma")                                      # Categorizes total number of apprehensions in 2017 at each Sector with respective names
 
 AB <- rbind(A, B)
 row.names(AB) <- c("2010", "2017")                                                             # Binds row A and row B into a matrix with the respective names of the Sectors aand Year
