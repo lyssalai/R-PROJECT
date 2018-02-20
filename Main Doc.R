@@ -55,6 +55,11 @@ colnames(B) <- c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
 AB <- rbind(A, B)
 row.names(AB) <- c("2010", "2017")                                                             # Binds row A and row B into a matrix with the respective names of the Sectors aand Year
 
-barplot(as.matrix(AB), beside = TRUE, col = c("red", "blue"), bty="n" )
+barplot(as.matrix(AB),
+        beside = TRUE,
+        names.arg = c("Big Bend", "Del Rio", "El Centro", "El Paso", "Laraedo",
+                      "Rio Grande Valley", "San Diego", "Tuscon", "Yuma"),
+        col = c("red", "blue"),
+        bty="n" )
 legend("topleft", c("2010","2017"), pch=15,  col=c("red","blue"),  bty="n")                    # Makes double barplot comparing total number of apprehensions at the Sectors, separated by year
 
